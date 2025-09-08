@@ -1,56 +1,11 @@
 <template>
-  <div
-    v-if="destinationObj.isLoading"
-    class="d-flex justify-content-center p-4"
-  >
-    <Loader></Loader>
-  </div>
-  <div class="container p-4 bg-white" v-else>
+  <div class="container p-4 bg-white">
     <div><h1 class="text-scuess text-center">TravelOPedia</h1></div>
     <hr />
-    <table class="table table-striped table-light">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Days</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          class="table-light"
-          v-for="destination in destinationObj.destinationList"
-          :key="destination.id"
-        >
-          <td>{{ destination.name }}</td>
-          <td>{{ destination.days }}</td>
-          <td>{{ destination.price }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <DestinationList></DestinationList>
   </div>
 </template>
+
 <script setup>
-import axios from "axios";
-import { reactive, onMounted } from "vue";
-
-const destinationObj = reactive({
-  destinationList: [],
-  isLoading: false,
-});
-
-onMounted(() => {
-  loadDestination();
-});
-
-function loadDestination() {
-  destinationObj.isLoading = true;
-  axios.get("http://localhost:3000/destination").then((response) => {
-    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
-      console.log(response.data);
-      destinationObj.destinationList = response.data;
-      destinationObj.isLoading = false;
-    });
-  });
-}
+import DestinationList from "./Components/Destination/DestinationList.vue";
 </script>
