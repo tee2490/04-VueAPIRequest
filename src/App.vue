@@ -1,5 +1,11 @@
 <template>
-  <div class="container p-4">
+  <div
+    v-if="destinationObj.isLoading"
+    class="d-flex justify-content-center p-4"
+  >
+    <Loader></Loader>
+  </div>
+  <div class="container p-4 bg-white" v-else>
     <div><h1 class="text-scuess text-center">TravelOPedia</h1></div>
     <hr />
     <table class="table table-striped table-light">
@@ -30,6 +36,7 @@ import { reactive, onMounted } from "vue";
 
 const destinationObj = reactive({
   destinationList: [],
+  isLoading: false,
 });
 
 onMounted(() => {
@@ -37,9 +44,13 @@ onMounted(() => {
 });
 
 function loadDestination() {
+  destinationObj.isLoading = true;
   axios.get("http://localhost:3000/destination").then((response) => {
-    console.log(response.data);
-    destinationObj.destinationList = response.data;
+    new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
+      console.log(response.data);
+      destinationObj.destinationList = response.data;
+      destinationObj.isLoading = false;
+    });
   });
 }
 </script>
