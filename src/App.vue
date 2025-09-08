@@ -16,10 +16,17 @@ const userObj = reactive({
 });
 
 onMounted(() => {
-  axios.get("https://jsonplaceholder.typicode.com/users").then((response) => {
-    console.log(response.data);
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      userObj.users = data;
+    });
 
-    userObj.users = response.data;
-  });
+  // axios.get("https://jsonplaceholder.typicode.com/users").then((response) => {
+  //   console.log(response.data);
+
+  //   userObj.users = response.data;
+  // });
 });
 </script>
